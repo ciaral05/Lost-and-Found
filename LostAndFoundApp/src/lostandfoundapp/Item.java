@@ -1,3 +1,5 @@
+package lostandfoundapp;
+
 public abstract class Item {
 
     protected int id;
