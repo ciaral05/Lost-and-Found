@@ -79,11 +79,13 @@ public class LostAndFoundApp extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Add");
+        JButton updateButton = new JButton("Update");
         JButton deleteButton = new JButton("Delete");
         JButton undoButton = new JButton("Undo Delete");
         JButton clearButton = new JButton("Clear");
 
         buttonPanel.add(addButton);
+        buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(undoButton);
         buttonPanel.add(clearButton);
@@ -93,9 +95,37 @@ public class LostAndFoundApp extends JFrame {
         add(mainPanel);
 
         addButton.addActionListener((ActionEvent e) -> addItem());
+        updateButton.addActionListener((ActionEvent e) -> updateItem());
         deleteButton.addActionListener((ActionEvent e) -> deleteItem());
         undoButton.addActionListener((ActionEvent e) -> undoDelete());
         clearButton.addActionListener((ActionEvent e) -> clearFields());
+    }
+    
+        private void updateItem() {
+        try {
+            int id = Integer.parseInt(idField.getText());
+            String name = nameField.getText();
+            String description = descriptionField.getText();
+            String location = locationField.getText();
+            String date = dateField.getText();
+            String person = personField.getText();
+            String type = typeComboBox.getSelectedItem().toString();
+
+            Item updatedItem;
+
+            if (type.equals("Lost")) {
+                updatedItem = new LostItem(id, name, description, location, date, person);
+            } else {
+                updatedItem = new FoundItem(id, name, description, location, date, person);
+            }
+
+            itemManager.update(id, updatedItem);
+            refreshTable();
+            clearFields();
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid number for ID.");
+        }
     }
 
     private void addItem() {
