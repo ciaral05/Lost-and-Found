@@ -1,6 +1,6 @@
 package lostandfoundapp;
 
-public abstract class Item {
+public abstract class Item implements Searchable, Matchable {
 
     protected int id;
     protected String name;
